@@ -115,23 +115,11 @@ function CursorFlowLink({
   rel?: string;
 }) {
   const handlePointerMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
-    const bounds = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - bounds.left;
-    const y = event.clientY - bounds.top;
-    const xRatio = x / bounds.width - 0.5;
-    const yRatio = y / bounds.height - 0.5;
-
-    event.currentTarget.style.setProperty("--pointer-x", `${x}px`);
-    event.currentTarget.style.setProperty("--pointer-y", `${y}px`);
-    event.currentTarget.style.setProperty("--tilt-x", `${xRatio * 4}deg`);
-    event.currentTarget.style.setProperty("--tilt-y", `${yRatio * -4}deg`);
+    setPointerEffect(event.currentTarget, event.clientX, event.clientY, 4);
   };
 
   const resetPointer = (event: ReactPointerEvent<HTMLAnchorElement>) => {
-    event.currentTarget.style.setProperty("--pointer-x", "50%");
-    event.currentTarget.style.setProperty("--pointer-y", "50%");
-    event.currentTarget.style.setProperty("--tilt-x", "0deg");
-    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+    resetPointerEffect(event.currentTarget);
   };
 
   return (
@@ -146,6 +134,26 @@ function CursorFlowLink({
       <span className="button-content">{children}</span>
     </a>
   );
+}
+
+function setPointerEffect(element: HTMLElement, clientX: number, clientY: number, tiltStrength: number) {
+    const bounds = element.getBoundingClientRect();
+    const x = clientX - bounds.left;
+    const y = clientY - bounds.top;
+    const xRatio = x / bounds.width - 0.5;
+    const yRatio = y / bounds.height - 0.5;
+
+    element.style.setProperty("--pointer-x", `${x}px`);
+    element.style.setProperty("--pointer-y", `${y}px`);
+    element.style.setProperty("--tilt-x", `${xRatio * tiltStrength}deg`);
+    element.style.setProperty("--tilt-y", `${yRatio * -tiltStrength}deg`);
+}
+
+function resetPointerEffect(element: HTMLElement) {
+  element.style.setProperty("--pointer-x", "50%");
+  element.style.setProperty("--pointer-y", "50%");
+  element.style.setProperty("--tilt-x", "0deg");
+  element.style.setProperty("--tilt-y", "0deg");
 }
 
 function Footer() {
@@ -225,7 +233,13 @@ function HomePage() {
 
         <div className="specialty-grid">
           {specialties.map(({ title, icon: Icon, className, description, link }) => (
-            <a className={`specialty-card ${className}`} href="#/projects" key={title}>
+            <a
+              className={`specialty-card ${className}`}
+              href="#/projects"
+              key={title}
+              onPointerMove={(event) => setPointerEffect(event.currentTarget, event.clientX, event.clientY, 3)}
+              onPointerLeave={(event) => resetPointerEffect(event.currentTarget)}
+            >
               <span className="icon-wrap"><Icon size={34} strokeWidth={1.8} /></span>
               <h3>{title}</h3>
               <p>{description}</p>

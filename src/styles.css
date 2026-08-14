@@ -97,12 +97,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid #7da3ff; outline-offs
   position: absolute;
   inset: 0;
   color: transparent;
-  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.96) 49%, transparent 63%);
-  background-size: 260% 100%;
+  background: linear-gradient(105deg, transparent 29%, rgba(82, 137, 255, 0.24) 37%, #79a9ff 45%, #ffffff 50%, #6d9fff 55%, rgba(82, 137, 255, 0.24) 63%, transparent 71%);
+  background-size: 230% 100%;
   background-position: 150% 0;
   -webkit-background-clip: text;
   background-clip: text;
   pointer-events: none;
+  filter: drop-shadow(0 0 9px rgba(92, 146, 255, 0.78));
   animation: headline-shine 4.8s ease-in-out infinite;
 }
 .hero h1 strong { color: #5b8eff; font-weight: 700; }
@@ -152,12 +153,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid #7da3ff; outline-offs
 .section-heading h2 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 1.55rem; }
 .section-heading > p:last-child { color: var(--muted); margin: 7px 0 0; }
 .specialty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 28px; }
-.specialty-card { position: relative; min-height: 242px; padding: 24px 30px; overflow: hidden; text-align: center; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(145deg, rgba(20, 40, 67, 0.9), rgba(12, 25, 43, 0.86)); box-shadow: inset 0 1px rgba(255,255,255,0.025); transition: transform 180ms ease, border-color 180ms ease; }
-.specialty-card::before { content: ""; position: absolute; inset: auto 25% -50% 25%; height: 80%; border-radius: 50%; background: currentColor; opacity: 0.05; filter: blur(20px); }
-.specialty-card:hover { transform: translateY(-5px); border-color: rgba(112, 150, 224, 0.45); }
-.specialty-card.android { color: #83cc58; }
-.specialty-card.dotnet { color: #a979ff; }
-.specialty-card.react { color: #50cafa; }
+.specialty-card { --pointer-x: 50%; --pointer-y: 50%; --tilt-x: 0deg; --tilt-y: 0deg; position: relative; min-height: 242px; padding: 24px 30px; overflow: hidden; text-align: center; border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(145deg, rgba(20, 40, 67, 0.9), rgba(12, 25, 43, 0.86)); box-shadow: inset 0 1px rgba(255,255,255,0.025); transform: perspective(700px) rotateX(var(--tilt-y)) rotateY(var(--tilt-x)); transition: transform 90ms ease, border-color 180ms ease, box-shadow 180ms ease; isolation: isolate; }
+.specialty-card::before { content: ""; position: absolute; z-index: 0; inset: -2px; border-radius: inherit; background: radial-gradient(circle 180px at var(--pointer-x) var(--pointer-y), rgba(var(--card-rgb), 0.3), rgba(111, 151, 255, 0.1) 46%, transparent 74%); opacity: 0; transition: opacity 180ms ease; pointer-events: none; }
+.specialty-card > * { position: relative; z-index: 1; }
+.specialty-card:hover { transform: perspective(700px) translateY(-5px) rotateX(var(--tilt-y)) rotateY(var(--tilt-x)); border-color: rgba(var(--card-rgb), 0.48); box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24); }
+.specialty-card:hover::before { opacity: 1; }
+.specialty-card.android { --card-rgb: 131, 204, 88; color: #83cc58; }
+.specialty-card.dotnet { --card-rgb: 169, 121, 255; color: #a979ff; }
+.specialty-card.react { --card-rgb: 80, 202, 250; color: #50cafa; }
 .icon-wrap { display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 13px; background: rgba(255,255,255,0.035); }
 .specialty-card h3 { color: var(--text); margin: 12px 0 7px; font-size: 1.18rem; }
 .specialty-card p { color: #aab6c9; margin: 0 auto; max-width: 310px; font-size: 0.86rem; line-height: 1.55; }
@@ -293,4 +296,5 @@ button:focus-visible, a:focus-visible { outline: 2px solid #7da3ff; outline-offs
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
   .cursor-flow, .cursor-flow:hover { transform: none; }
+  .specialty-card, .specialty-card:hover { transform: none; }
 }
