@@ -1,35 +1,39 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import {
   ArrowRight,
   Blocks,
-  Bot,
   BriefcaseBusiness,
   CheckCircle2,
   ChevronDown,
   Code2,
   ExternalLink,
   GitBranch,
-  Layers3,
   ContactRound,
   Menu,
   MonitorCog,
-  Rocket,
   ServerCog,
   Smartphone,
   Sparkles,
   Star,
   X,
 } from "lucide-react";
+import {
+  SiCss,
+  SiHtml5,
+  SiJavascript,
+  SiKotlin,
+  SiSharp,
+  SiTypescript,
+} from "react-icons/si";
 
-type Route = "home" | "projects" | "about" | "skills" | "contact";
+type Route = "home" | "projects" | "about" | "contact";
 
-const routes: Route[] = ["home", "projects", "about", "skills", "contact"];
+const routes: Route[] = ["home", "projects", "about", "contact"];
 
 const routeLabels: Record<Route, string> = {
   home: "Home",
   projects: "Projects",
   about: "About",
-  skills: "Skills",
   contact: "Contact",
 };
 
@@ -72,7 +76,7 @@ function Header({ route }: { route: Route }) {
       </button>
 
       <nav className={open ? "nav-links is-open" : "nav-links"} aria-label="Main navigation">
-        {routes.map((item) => (
+        {(["home", "projects", "about"] as Route[]).map((item) => (
           <a
             className={route === item ? "nav-link active" : "nav-link"}
             href={`#/${item}`}
@@ -82,21 +86,65 @@ function Header({ route }: { route: Route }) {
             {routeLabels[item]}
           </a>
         ))}
-        <button className="nav-link resume-nav" type="button" disabled title="Résumé coming soon">
+        <button className="nav-link resume-nav" type="button" aria-disabled="true" title="Résumé coming soon">
           Résumé
         </button>
         <a
-          className="social-link"
-          href="https://github.com/SoftwareEngineerJeanHarris"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Jean Harris on GitHub"
+          className={route === "contact" ? "nav-link active" : "nav-link"}
+          href="#/contact"
           onClick={() => setOpen(false)}
         >
-          <GitBranch size={21} />
+          Contact
         </a>
       </nav>
     </header>
+  );
+}
+
+function CursorFlowLink({
+  href,
+  className,
+  children,
+  target,
+  rel,
+}: {
+  href: string;
+  className: string;
+  children: ReactNode;
+  target?: "_blank";
+  rel?: string;
+}) {
+  const handlePointerMove = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+    const xRatio = x / bounds.width - 0.5;
+    const yRatio = y / bounds.height - 0.5;
+
+    event.currentTarget.style.setProperty("--pointer-x", `${x}px`);
+    event.currentTarget.style.setProperty("--pointer-y", `${y}px`);
+    event.currentTarget.style.setProperty("--tilt-x", `${xRatio * 4}deg`);
+    event.currentTarget.style.setProperty("--tilt-y", `${yRatio * -4}deg`);
+  };
+
+  const resetPointer = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    event.currentTarget.style.setProperty("--pointer-x", "50%");
+    event.currentTarget.style.setProperty("--pointer-y", "50%");
+    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+  };
+
+  return (
+    <a
+      className={`button cursor-flow ${className}`}
+      href={href}
+      target={target}
+      rel={rel}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
+    >
+      <span className="button-content">{children}</span>
+    </a>
   );
 }
 
@@ -122,23 +170,32 @@ const specialties = [
     title: "Android",
     icon: Smartphone,
     className: "android",
-    description: "Native Android experiences built with Kotlin, Jetpack Compose, MVVM, and thoughtful architecture.",
+    description: "MVVM Android workflows that turn large floor processes, including inventory verification, into clear guided actions.",
     link: "View Android Projects",
   },
   {
     title: ".NET",
     icon: ServerCog,
     className: "dotnet",
-    description: "Reliable APIs, WPF applications, and system services engineered with C# and the .NET ecosystem.",
+    description: "C# APIs, WPF tools, and system services that automate scans, QA holds, material thresholds, and alerts.",
     link: "View .NET Projects",
   },
   {
     title: "React",
     icon: Blocks,
     className: "react",
-    description: "Modern, responsive web applications built with React, TypeScript, and accessible design patterns.",
+    description: "React and TypeScript dashboards that give floor operators live progress and critical production visibility.",
     link: "View React Projects",
   },
+];
+
+const languages = [
+  { name: "Kotlin", icon: SiKotlin, className: "kotlin" },
+  { name: "C#", icon: SiSharp, className: "csharp" },
+  { name: "TypeScript", icon: SiTypescript, className: "typescript" },
+  { name: "JavaScript", icon: SiJavascript, className: "javascript" },
+  { name: "HTML5", icon: SiHtml5, className: "html" },
+  { name: "CSS3", icon: SiCss, className: "css" },
 ];
 
 function HomePage() {
@@ -149,12 +206,11 @@ function HomePage() {
       <section className="hero">
         <div className="hero-shade" />
         <div className="hero-content">
-          <p className="eyebrow"><span /> SOFTWARE ENGINEER</p>
-          <h1>Build. <strong>Ship.</strong> Learn.</h1>
-          <p className="hero-copy">Crafting reliable applications and meaningful user experiences across mobile, desktop, and web.</p>
+          <p className="eyebrow">SOFTWARE ENGINEER</p>
+          <h1 className="hero-title" data-text="Build. Ship. Learn.">Build. <strong>Ship.</strong> Learn.</h1>
           <div className="hero-actions">
-            <a className="button primary" href="#/projects"><Rocket size={19} /> Explore Projects</a>
-            <button className="button secondary" type="button" disabled title="Résumé coming soon"><BriefcaseBusiness size={18} /> Résumé</button>
+            <CursorFlowLink className="primary" href="#/projects">Explore Projects</CursorFlowLink>
+            <button className="button secondary" type="button" disabled title="Résumé coming soon">Résumé</button>
           </div>
         </div>
         <a className="scroll-cue" href="#explore" aria-label="Scroll to explore projects"><ChevronDown /></a>
@@ -178,6 +234,22 @@ function HomePage() {
           ))}
         </div>
 
+        <section className="languages-section" aria-labelledby="languages-title">
+          <div className="languages-copy">
+            <p className="eyebrow">CORE TOOLKIT</p>
+            <h2 id="languages-title">Languages</h2>
+            <p>The languages behind the mobile, automation, and floor-visibility work.</p>
+          </div>
+          <div className="language-grid">
+            {languages.map(({ name, icon: Icon, className }) => (
+              <div className={`language-chip ${className}`} key={name}>
+                <Icon aria-hidden="true" />
+                <span>{name}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="stats-panel" aria-label="At a glance">
           <div className="stats-intro">
             <h2>At a Glance</h2>
@@ -196,19 +268,19 @@ const projectGroups = [
   {
     icon: Smartphone,
     title: "Android Applications",
-    description: "Native mobile products focused on intuitive experiences, maintainable MVVM architecture, and modern Android tooling.",
+    description: "Guided Android workflows that simplify large floor processes—like starting, running, and verifying a full inventory stock count from a few clear actions.",
     tags: ["Kotlin", "Jetpack Compose", "MVVM"],
   },
   {
     icon: ServerCog,
     title: ".NET Systems",
-    description: "APIs, WPF desktop experiences, and dependable system services built for real operational needs.",
+    description: "Factory automation that updates tire-material locations on each scan, triggers QA holds, and sends threshold and expiration alerts.",
     tags: ["C#", ".NET", "WPF", "REST APIs"],
   },
   {
     icon: MonitorCog,
     title: "Web Experiences",
-    description: "Fast, responsive interfaces that bring product ideas to life across screen sizes.",
+    description: "Floor dashboards that make operator progress visible and relay critical production information when teams need it.",
     tags: ["React", "TypeScript", "Responsive UI"],
   },
 ];
@@ -241,7 +313,7 @@ function AboutPage() {
         <article className="story-card">
           <h2>Building with purpose</h2>
           <p>Since February 2019, I’ve worked across Android, .NET, desktop systems, services, APIs, and the web. I care about the full path from a rough idea to software that is understandable, maintainable, and ready for real users.</p>
-          <p>My favorite projects sit where thoughtful engineering meets a clear human need—especially when there is room to learn, simplify, and make the experience better with every iteration.</p>
+          <p>My favorite projects automate tedious work, starting with my own workflow and expanding to help others. In .NET, that has meant updating tire-material locations automatically with every factory scan, triggering QA holds, and sending threshold or expiration emails. On Android, I’ve turned large processes into a few clear actions—such as starting and running a stock count that verifies every inventory location. With React, I’ve built floor dashboards that let operators track progress and receive critical information as work happens.</p>
         </article>
         <aside className="principles-card">
           <h2>How I work</h2>
@@ -251,29 +323,6 @@ function AboutPage() {
             "Ship, listen, learn, and improve.",
           ].map((item) => <p key={item}><CheckCircle2 size={18} />{item}</p>)}
         </aside>
-      </div>
-    </PageFrame>
-  );
-}
-
-const skillGroups = [
-  { icon: Smartphone, title: "Mobile", items: ["Kotlin", "Jetpack Compose", "Android SDK", "MVVM"] },
-  { icon: ServerCog, title: "Microsoft Stack", items: ["C#", ".NET", "WPF", "REST APIs", "System Services"] },
-  { icon: Layers3, title: "Web", items: ["React", "TypeScript", "HTML", "CSS", "Responsive Design"] },
-  { icon: Bot, title: "Engineering", items: ["Architecture", "Git", "Testing", "CI/CD", "Problem Solving"] },
-];
-
-function SkillsPage() {
-  return (
-    <PageFrame eyebrow="TOOLKIT" title="Skills" intro="A practical toolkit shaped by building products across mobile, desktop, backend systems, and the web.">
-      <div className="skills-grid">
-        {skillGroups.map(({ icon: Icon, title, items }) => (
-          <article className="skill-card" key={title}>
-            <Icon size={28} />
-            <h2>{title}</h2>
-            <div className="skill-items">{items.map((item) => <span key={item}>{item}</span>)}</div>
-          </article>
-        ))}
       </div>
     </PageFrame>
   );
@@ -289,12 +338,12 @@ function ContactPage() {
           <p>Connect with me for professional opportunities, engineering conversations, or a look at what I’m working on next.</p>
         </div>
         <div className="contact-actions">
-          <a className="button primary" href="https://www.linkedin.com/in/jean-michael-harris/" target="_blank" rel="noreferrer">
+          <CursorFlowLink className="primary" href="https://www.linkedin.com/in/jean-michael-harris/" target="_blank" rel="noreferrer">
             <ContactRound size={19} /> Open LinkedIn <ExternalLink size={16} />
-          </a>
-          <a className="button secondary" href="https://github.com/SoftwareEngineerJeanHarris" target="_blank" rel="noreferrer">
+          </CursorFlowLink>
+          <CursorFlowLink className="secondary" href="https://github.com/SoftwareEngineerJeanHarris" target="_blank" rel="noreferrer">
             <GitBranch size={19} /> View GitHub
-          </a>
+          </CursorFlowLink>
         </div>
       </div>
     </PageFrame>
@@ -330,7 +379,6 @@ export default function App() {
     home: <HomePage />,
     projects: <ProjectsPage />,
     about: <AboutPage />,
-    skills: <SkillsPage />,
     contact: <ContactPage />,
   };
 
