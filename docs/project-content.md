@@ -18,4 +18,4 @@ Omit unavailable demos, private repository links, and sections without content. 
 
 Category links retain keyboard focus; changing pages focuses the main content. Hash changes enter browser history and selections survive refresh. Unknown categories show all projects with a notice; unknown case-study slugs show a recovery link. Case studies keep Projects active in the site navigation and use the project title in the document title.
 
-The portfolio rebuild has no `demoUrl` while its new design is local. Add the reviewed public destination and replace its in-progress status after Phase 10. Other prototypes link to their verified repositories rather than unverified deployments.
+The portfolio rebuild now links to its reviewed public deployment. Other prototypes link to their verified repositories rather than unverified deployments. The security roadmap remains separate from completed-project counts and case studies.

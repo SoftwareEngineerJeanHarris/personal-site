@@ -2,7 +2,7 @@
 
 A phased rebuild of a React, TypeScript, and Vite portfolio, based on the approved **Diagonal Momentum** direction: white surfaces, red accents, condensed headlines, and diagonal project visuals.
 
-**Current milestone: Phase 10 — release.** The portfolio includes four curated projects, source-linked case studies, a professional portrait, Contact, TryHackMe SEC0/SEC1 certificates, and a cybersecurity lab roadmap. Release checks pass; publication and live verification are the final step. See [the 10-phase roadmap](docs/rebuild-plan.md), [curation evidence](docs/portfolio-curation.md), and [credential notes](docs/certifications.md).
+**All ten phases complete — published October 5, 2026.** The portfolio includes four curated projects, source-linked case studies, a professional portrait, Contact, TryHackMe SEC0/SEC1 certificates, and a cybersecurity lab roadmap. [View the live portfolio](https://softwareengineerjeanharris.github.io/personal-site/). See [release verification](docs/release.md), [the 10-phase roadmap](docs/rebuild-plan.md), and [credential notes](docs/certifications.md).
 
 ## Run locally
 

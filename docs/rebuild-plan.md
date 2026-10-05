@@ -147,7 +147,7 @@ Optimized: self-hosted WOFF2 fonts with licenses, critical font preloads, respon
 
 ## 10. Release and verify GitHub Pages
 
-**Status: release prepared — 2026-10-05; deployment verification pending.**
+**Status: complete and verified online — 2026-10-05.**
 
 - Review the final diff and release checklist; create a release commit/PR as appropriate.
 - Confirm Pages uses the repository's Actions deployment workflow.
@@ -156,11 +156,13 @@ Optimized: self-hosted WOFF2 fonts with licenses, critical font preloads, respon
 
 Acceptance: the live URL serves the reviewed design and the prior revision can be restored.
 
+Released commit `2ef7fd0f406d08d0de97001b8b1b69f90b27f412`. GitHub Actions run `37306407224` completed both build and deploy successfully. The live page serves the reviewed `index-CIlaP50t.js` bundle. Home, all four category views, four case studies, About, Contact, refresh, portrait/certificate imagery, fonts, and certificate downloads were verified. Downloaded SEC0/SEC1 PDFs match the source copies by SHA-256. Browser logs are clear. The GitHub profile README update is published at `53de7e09586095df3ff0dae65b4be567150c8fd9`. See `docs/release.md` for details and rollback steps.
+
 ## Recovery and current state
 
 - Local backup: `work/rebuild-baseline-2026-10-02/pre-rebuild.zip`.
 - Baseline commit: `work/rebuild-baseline-2026-10-02/git-head.txt`.
 - Retired raster assets: `work/rebuild-baseline-2026-10-02/retired-assets/`.
 - The backup directory is ignored by Git; prior source also remains in Git history.
-- Phases 1–9 are complete. Phase 10 publishes and verifies the reviewed build.
+- All ten phases are complete. The reviewed build is published and verified online.
 - Starter pages do not count as completion of later design/content phases.
