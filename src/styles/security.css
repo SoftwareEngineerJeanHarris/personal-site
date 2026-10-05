@@ -1,0 +1,28 @@
+.security-section, .certifications-section { margin-top: 64px; padding-top: 36px; border-top: 1px solid var(--border); }
+.security-teaser { display: flex; align-items: flex-start; gap: 26px; margin-top: 30px; padding: 30px; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); }
+.security-teaser > svg { color: var(--accent); }
+.security-teaser h3 { font-size: 2rem; }
+.security-teaser p { max-width: 780px; font-size: .9rem; }
+.security-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 30px; }
+.security-work { padding: 26px; background: var(--surface); border: 1px solid var(--border); }
+.security-work h3 { margin-top: 20px; font-size: 1.7rem; }
+.security-work p { font-size: .85rem; margin-bottom: 20px; }
+.security-work > svg { color: var(--accent); }
+.work-status { display: inline-block; padding: 5px 9px; font-size: .7rem; color: var(--muted); background: var(--surface-soft); border-radius: 3px; }
+.work-status--active { color: var(--accent-hover); background: var(--accent-soft); }
+.certification-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; margin-top: 30px; }
+.certification-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.certification-card img { width: 100%; height: auto; }
+.certification-copy { padding: 25px; }
+.certification-copy .eyebrow { color: var(--accent); margin-bottom: 12px; }
+.certification-copy h3 { font-size: 1.9rem; }
+.certification-copy > p:not(.eyebrow) { font-size: .83rem; }
+.certification-copy .action-link { font-size: .8rem; }
+.contact-icon { color: var(--accent); margin-bottom: 25px; }
+.contact-destination { display: flex; align-items: center; gap: 12px; color: var(--accent); font-size: .8rem; min-height: 44px; }
+.contact-topics { border-top: 1px solid var(--border); padding-top: 32px; margin-top: 44px; }
+.contact-topics .eyebrow { color: var(--accent); margin-bottom: 14px; }
+.contact-topics h2 { font-family: var(--font-display); font-size: 2.2rem; }
+.contact-topics > p:last-child { max-width: 650px; margin-top: 24px; margin-bottom: 0; font-size: .9rem; }
+@media (max-width: 900px) { .security-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .security-grid, .certification-grid { grid-template-columns: 1fr; } .security-teaser { flex-direction: column; padding: 24px; gap: 20px; } .security-section, .certifications-section { margin-top: 46px; } }
